@@ -14,8 +14,14 @@ function EmployeeForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const payload = {
+      full_name: employee.full_name,
+      email: employee.email,
+      department: employee.department
+    };
+
     try {
-      await axios.post(`${API_URL}/employees`, employee);
+      await axios.post(`${API_URL}/employees`, payload);
       alert("Employee Added");
     } catch (err) {
       console.error(err);
