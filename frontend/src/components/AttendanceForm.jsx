@@ -9,18 +9,22 @@ function AttendanceForm() {
     status: "Present"
   });
 
+  const API_URL = process.env.REACT_APP_API_URL; 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await axios.post("http://127.0.0.1:8000/attendance", attendance);
-
-    alert("Attendance Marked");
+    try {
+      await axios.post(`${API_URL}/attendance`, attendance);
+      alert("Attendance Marked");
+    } catch (err) {
+      console.error(err);
+      alert("Error marking attendance");
+    }
   };
 
   return (
-
     <form onSubmit={handleSubmit}>
-
       <input
         className="form-control mb-2"
         placeholder="Employee ID"
@@ -50,9 +54,7 @@ function AttendanceForm() {
       <button className="btn btn-success">
         Mark Attendance
       </button>
-
     </form>
-
   );
 }
 

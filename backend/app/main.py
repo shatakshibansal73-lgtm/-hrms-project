@@ -5,6 +5,9 @@ from app import models, schemas, crud
 from app.database import engine, SessionLocal, Base
 from sqlalchemy import func
 from datetime import date
+import pandas as pd
+from fastapi.responses import StreamingResponse
+import io
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
@@ -117,9 +120,7 @@ def department_stats(db: Session = Depends(get_db)):
     ).group_by(models.Employee.department).all()
 
     return data
-import pandas as pd
-from fastapi.responses import StreamingResponse
-import io
+
 
 @app.get("/export-employees")
 def export_employees(db: Session = Depends(get_db)):

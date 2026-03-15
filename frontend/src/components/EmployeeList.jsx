@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-const API_URL = "http://127.0.0.1:8000"; // change to your Render URL when deployed
-
+const API_URL = process.env.REACT_APP_API_URL; 
 function EmployeeList() {
   const [employees, setEmployees] = useState([]);
 
@@ -35,7 +34,7 @@ function EmployeeList() {
         ) : (
           employees.map((emp) => (
             <tr key={emp.id}>
-              <td>{emp.id}</td> {/* Use 'id' from backend */}
+              <td>{emp.id}</td>
               <td>{emp.full_name}</td>
               <td>{emp.email}</td>
               <td>{emp.department}</td>

@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "../App.css";
-
+const API_URL = process.env.REACT_APP_API_URL;
 function Reports(){
 
 const [attendance,setAttendance] = useState([]);
 
 useEffect(()=>{
 
-axios.get("http://127.0.0.1:8000/attendance")
-.then(res=>setAttendance(res.data))
+axios.get(`${API_URL}/attendance`)
+  .then(res => setAttendance(res.data))
+  .catch(err => console.log(err));
 
 },[])
 

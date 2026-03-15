@@ -3,17 +3,19 @@ import axios from "axios";
 import AttendanceForm from "../components/AttendanceForm";
 import "../App.css";
 
+
+const API_URL = process.env.REACT_APP_API_URL; 
+
 function Attendance() {
 
   const [attendance, setAttendance] = useState([]);
 
   useEffect(() => {
-
-    axios.get("http://127.0.0.1:8000/attendance")
+    axios.get(`${API_URL}/attendance`)
       .then(res => setAttendance(res.data))
       .catch(err => console.log(err));
-
   }, []);
+
 
   return (
 

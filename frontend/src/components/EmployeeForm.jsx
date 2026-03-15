@@ -10,16 +10,20 @@ function EmployeeForm() {
     department: ""
   });
 
+  const API_URL = process.env.REACT_APP_API_URL; 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await axios.post("http://127.0.0.1:8000/employees", employee);
-
-    alert("Employee Added");
+    try {
+      await axios.post(`${API_URL}/employees`, employee);
+      alert("Employee Added");
+    } catch (err) {
+      console.error(err);
+      alert("Error adding employee");
+    }
   };
 
   return (
-
     <form onSubmit={handleSubmit}>
 
       <input
@@ -59,7 +63,6 @@ function EmployeeForm() {
       </button>
 
     </form>
-
   );
 }
 

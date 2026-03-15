@@ -19,51 +19,41 @@ import {
 
 import "../App.css";
 
+const API_URL = process.env.REACT_APP_API_URL; 
+
 function Dashboard() {
 
-const [data, setData] = useState({
-total_employees:0,
-present_today:0,
-absent_today:0,
-recent_employees:[]
-});
-const [departments, setDepartments] = useState(0);
-useEffect(()=>{
+  const [data, setData] = useState({
+    total_employees:0,
+    present_today:0,
+    absent_today:0,
+    recent_employees:[],
+    departments: 0
+  });
 
-axios.get("http://127.0.0.1:8000/dashboard")
-.then(res=>setData(res.data))
-.catch(err=>console.log(err));
+  useEffect(()=>{
+    axios.get(`${API_URL}/dashboard`)
+      .then(res => setData(res.data))
+      .catch(err => console.log(err));
+  }, []);
 
-},[]);
+  const exportEmployees = async () => {
+    try {
+      const response = await axios.get(
+        `${API_URL}/export-employees`,
+        { responseType: "blob" }
+      );
 
-const exportEmployees = async () => {
-
-try{
-
-const response = await axios.get(
-"http://127.0.0.1:8000/export-employees",
-{ responseType: "blob" }
-);
-
-const url = window.URL.createObjectURL(new Blob([response.data]));
-
-const link = document.createElement("a");
-
-link.href = url;
-
-link.setAttribute("download", "employees.xlsx");
-
-document.body.appendChild(link);
-
-link.click();
-
-}catch(err){
-
-console.log(err)
-
-}
-
-};
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "employees.xlsx");
+      document.body.appendChild(link);
+      link.click();
+    } catch(err) {
+      console.log(err);
+    }
+  };
 
 const chartData = [
 { name:"Present", value:data.present_today },
